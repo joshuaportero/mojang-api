@@ -15,7 +15,6 @@ app.use('*', async (c, next) => {
     await next();
 });
 
-
 app.route(ROUTE_PREFIX + "/user", userRoutes);
 app.route(ROUTE_PREFIX + "/health", healthRoutes);
 

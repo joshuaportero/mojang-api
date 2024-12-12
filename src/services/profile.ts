@@ -8,9 +8,20 @@ export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> =
     try {
         const response = await fetch(url, {
             method: 'GET',
+            cf: {
+              mirage: true,
+              polish: "lossy",
+              cacheEverything: true,
+              cacheTtl: 3600,
+              cacheTtlByStatus: {
+                '200-299': 3600,
+                '404': 0,
+                '429': 0
+              }
+            },
             headers: {
                 'Accept': 'application/json',
-                'User-Agent': 'mojang-api / 1.0 A lightweight REST API designed for Minecraft plugins, hosted on Cloudflare Workers, that consolidates Mojang API requests into a single GET request for efficient retrieval of player data, UUIDs, and skins.'
+                'User-Agent': 'mojang-api/1.0 (+https://mojang.portero.dev/api/v1)'
             },
         });
 
