@@ -1,23 +1,15 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
+import userRoutes from "./routes/user";
+import healthRoutes from "./routes/health";
+import { notFoundHandler } from "./routes/notFound";
 
-const app = new Hono()
-const api = new Hono()
+const app = new Hono();
 
-app.route('/api/v1', api);
+const ROUTE_PREFIX = "/api/v1";
 
-const startTime = Date.now();
+app.route(ROUTE_PREFIX + "/user", userRoutes);
+app.route(ROUTE_PREFIX + "/health", healthRoutes);
 
-api.get('/', (c) => {
-  const currentTime = Date.now();
-  const healthInfo = {
-    status: 'UP',
-    uptime: (currentTime - startTime) / 1000,
-    timestamp: new Date().toISOString(),
-    environment: 'development',
-    version: '0.0.1-DEV',
-  };
+app.notFound(notFoundHandler);
 
-  return c.json(healthInfo, 200);
-});
-
-export default app
+export default app;
