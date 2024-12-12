@@ -9,8 +9,8 @@ const ROUTE_PREFIX = "/api/v1";
 
 app.use('*', async (c, next) => {
     c.header('Access-Control-Allow-Origin', '*');
-    c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    c.header('Access-Control-Allow-Headers', 'Content-Type');
+    c.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    c.header('Access-Control-Max-Age', '86400');
     if (c.req.method === 'OPTIONS') return c.text('OK', 204);
     await next();
 });
