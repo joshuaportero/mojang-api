@@ -23,7 +23,8 @@ export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> =
                 console.error("Internal server error");
                 break;
             default:
-                console.error("Unknown error");
+                console.error("Unknown error; status code:", response.status);
+                console.error(await response.text());
                 break;
         }
 
@@ -52,7 +53,6 @@ export const getCustomUserFormat = async (username: string): Promise<CustomUser 
     const uuidData = await getUUID(username);
 
     if (!uuidData) {
-        console.error("Error fetching UUID for username:", username);
         return null;
     }
 
@@ -78,7 +78,7 @@ const fetchWithMojangConfig = async (url: string): Promise<Response> => {
         },
         headers: {
             'Accept': 'application/json',
-            'User-Agent': 'mojang-api/1.0 (+https://mojang.portero.dev/api/v1)',
+            'User-Agent': 'mojang-portero-api/1.0 (+https://mojang.portero.dev/api/v1)',
         },
     });
 };
