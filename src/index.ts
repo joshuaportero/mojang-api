@@ -1,7 +1,7 @@
-import { Hono } from "hono";
+import {Hono} from "hono";
 import userRoutes from "./routes/user";
 import healthRoutes from "./routes/health";
-import { notFoundHandler } from "./routes/notFound";
+import {notFoundHandler} from "./routes/notFound";
 
 const app = new Hono();
 
