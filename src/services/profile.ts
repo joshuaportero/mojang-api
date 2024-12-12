@@ -6,7 +6,14 @@ import UUIDUtil from "../util/uuid";
 export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> => {
     const url = `${USER_UUID_URL}/${uuid}`;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'mojang-api / 1.0 A lightweight REST API designed for Minecraft plugins, hosted on Cloudflare Workers, that consolidates Mojang API requests into a single GET request for efficient retrieval of player data, UUIDs, and skins.'
+            },
+        });
+
         if (response.ok) {
             return await response.json();
         }
