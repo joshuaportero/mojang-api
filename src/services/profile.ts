@@ -29,8 +29,10 @@ const fetchWithMojangConfig = async (url: string): Promise<Response> => {
                 },
             },
             headers: {
+                accept: "application/json",
                 "Content-Type": "application/json",
                 "User-Agent": "portero-api/1.0 (+https://api.portero.dev/)",
+                "Host": "api.mojang.com"
             },
         });
     } catch (error) {
