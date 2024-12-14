@@ -19,14 +19,13 @@ const fetchWithMojangConfig = async (url: string): Promise<Response> => {
         return await fetch(url, {
             method: "GET",
             cf: {
-                mirage: true,
-                polish: "lossy",
-                cacheEverything: true,
-                ttl: 3600,
-                cacheTtl: 3600,
+                mirage: false,
+                cacheEverything: false,
+                ttl: 0,
+                cacheTtl: 0,
                 cacheTtlByStatus: {
-                    "200-399": 3600,
-                    "400-499": 60,
+                    "200-399": 0,
+                    "400-499": 0,
                 },
             },
             headers: {
