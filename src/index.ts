@@ -5,7 +5,7 @@ import {notFoundHandler} from "./routes/notFound";
 
 const app = new Hono();
 
-const ROUTE_PREFIX = "/api/v1";
+const ROUTE_PREFIX = "/mojang/v1";
 
 app.use('*', async (c, next) => {
     c.header('Access-Control-Allow-Origin', '*');
