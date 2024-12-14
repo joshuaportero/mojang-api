@@ -1,4 +1,4 @@
-name = "mojang-api"
+name = "portero-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-12"
 minify = true
