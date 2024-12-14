@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2024-12-12"
 minify = true
 
-routes = [{ pattern = "mojang.portero.dev/api/v1*", zone_id = "a437aa1e0969de076d0b33cc0d5b34c4" }]
+routes = [{ pattern = "api.portero.dev/mojang/v1*", zone_id = "a437aa1e0969de076d0b33cc0d5b34c4" }]
 
 workers_dev = false
 

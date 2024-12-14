@@ -1,9 +1,8 @@
-import { USER_PROFILE_URL, USER_UUID_URL } from "../types/urls";
-import { MojangProfile, MojangUserProfile } from "../types/mojang";
-import { CustomUser } from "../types/reponse";
+import {USER_PROFILE_URL, USER_UUID_URL} from "../types/urls";
+import {MojangProfile, MojangUserProfile} from "../types/mojang";
+import {CustomUser} from "../types/reponse";
 import UUIDUtil from "../util/uuid";
 
-// Centralized Error Logger
 const logError = async (response: Response): Promise<void> => {
     console.error(`Error: HTTP ${response.status} - ${response.statusText}`);
     console.error("Headers:", [...response.headers.entries()]);
@@ -15,29 +14,32 @@ const logError = async (response: Response): Promise<void> => {
     }
 };
 
-// Fetch Wrapper with Config
 const fetchWithMojangConfig = async (url: string): Promise<Response> => {
-    return fetch(url, {
-        method: "GET",
-        cf: {
-            mirage: true,
-            polish: "lossy",
-            cacheEverything: true,
-            cacheTtl: 3600,
-            cacheTtlByStatus: {
-                "200-299": 3600,
-                "404": 0,
-                "429": 0,
+    try {
+        return await fetch(url, {
+            method: "GET",
+            cf: {
+                mirage: true,
+                polish: "lossy",
+                cacheEverything: true,
+                ttl: 3600,
+                cacheTtl: 3600,
+                cacheTtlByStatus: {
+                    "200-399": 3600,
+                    "400-499": 60,
+                },
             },
-        },
-        headers: {
-            Accept: "application/json",
-            "User-Agent": "mojang-portero-api/1.0 (+https://mojang.portero.dev/api/v1)",
-        },
-    });
+            headers: {
+                Accept: "application/json",
+                "User-Agent": "portero-api/1.0 (+https://api.portero.dev/)",
+            },
+        });
+    } catch (error) {
+        console.error("Network error occurred while fetching:", error);
+        throw new Error("Failed to fetch from Mojang API.");
+    }
 };
 
-// Fetch UUID by Username
 export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> => {
     const url = `${USER_UUID_URL}/${uuid}`;
     try {
@@ -47,8 +49,7 @@ export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> =
             return await response.json();
         }
 
-        await logError(response); // Log detailed errors for non-2XX responses
-
+        await logError(response);
         return null;
     } catch (error) {
         console.error("Error fetching UUID:", error);
@@ -56,7 +57,6 @@ export const getUUID = async (uuid: string): Promise<MojangUserProfile | null> =
     }
 };
 
-// Fetch Profile by Username
 export const getProfile = async (username: string): Promise<MojangProfile | null> => {
     const url = `${USER_PROFILE_URL}/${username}`;
     try {
@@ -66,8 +66,7 @@ export const getProfile = async (username: string): Promise<MojangProfile | null
             return await response.json();
         }
 
-        await logError(response); // Log detailed errors for non-2XX responses
-
+        await logError(response);
         return null;
     } catch (error) {
         console.error("Error fetching Profile:", error);
@@ -75,7 +74,6 @@ export const getProfile = async (username: string): Promise<MojangProfile | null
     }
 };
 
-// Convert UUID Data to Custom User Format
 export const getCustomUserFormat = async (username: string): Promise<CustomUser | null> => {
     const uuidData = await getUUID(username);
 
