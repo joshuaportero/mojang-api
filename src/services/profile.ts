@@ -30,7 +30,7 @@ const fetchWithMojangConfig = async (url: string): Promise<Response> => {
                 },
             },
             headers: {
-                Accept: "application/json",
+                "Content-Type": "application/json",
                 "User-Agent": "portero-api/1.0 (+https://api.portero.dev/)",
             },
         });
